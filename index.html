@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Madhusudhan Ramshetty — Full Stack Developer</title>
+<meta name="description" content="Computer Science Engineering student building aviation software, web applications and AI integrations. B.Tech CSE, Alliance University." />
+<meta property="og:title" content="Madhusudhan Ramshetty — Full Stack Developer" />
+<meta property="og:description" content="Building real-world solutions through code." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ==================================================================
+   MADHUSUDHAN RAMSHETTY — PORTFOLIO
+   ------------------------------------------------------------------
+   Laid out like the document his own software produces: an operational
+   flight plan. Hairline field boxes with labels sitting on the rule,
+   monospaced data, aeronautical-chart palette.
+
+   Every animation here is native CSS/JS on purpose. The README this
+   replaces pulled its motion from six third-party image services, two
+   of which were failing at build time (github-readme-stats 503, the
+   contribution snake 404). Nothing on this page can break because
+   someone else's server went down.
+   ================================================================== */
+
+/* ---------- tokens ----------
+   Dark is the design, not a preference: the hero canvas, the glows and
+   the chart palette were all built for a dark ground, and the light set
+   below exists as an opt-out rather than an equal twin. So the default
+   is dark for everyone regardless of OS setting, and the toggle stamps
+   data-theme to override it. */
+:root {
+  --paper:      #070d11;
+  --paper-2:    #0c161b;
+  --panel:      #0d181e;
+  --panel-2:    #101f27;
+  --ink:        #e2edf1;
+  --ink-2:      #9db0b8;
+  --ink-3:      #6d838c;
+  --rule:       #24373f;
+  --rule-soft:  #182830;
+  --cyan:       #3fc9e4;
+  --cyan-lit:   #00c2ff;
+  --magenta:    #ff6b9d;
+  --cyan-wash:  rgba(0, 194, 255, 0.12);
+  --magenta-wash: rgba(255, 107, 157, 0.12);
+  --glow:       rgba(0, 194, 255, 0.42);
+  --dot:        rgba(154, 190, 205, 0.13);
+  --wash-a:     rgba(0, 194, 255, 0.13);
+  --wash-b:     rgba(124, 58, 237, 0.16);
+
+  --font-display: "IBM Plex Sans Condensed", "Helvetica Neue", Arial, sans-serif;
+  --font-body:    "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --shell: 1060px;
+  --step:  clamp(18px, 3.2vw, 30px);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --paper: #edf1f2;  --paper-2: #e3e9eb;  --panel: #f7f9fa;  --panel-2: #eef3f5;
+  --ink: #0b1418;    --ink-2: #3d4f56;    --ink-3: #6b7f87;
+  --rule: #c4d0d4;   --rule-soft: #d8e0e3;
+  --cyan: #00718a;   --cyan-lit: #00a8cc;  --magenta: #b81f57;
+  --cyan-wash: rgba(0, 168, 204, 0.10);
+  --magenta-wash: rgba(184, 31, 87, 0.09);
+  --glow: rgba(0, 168, 204, 0.30);
+  --dot: rgba(11, 20, 24, 0.13);
+  --wash-a: rgba(0, 168, 204, 0.16);
+  --wash-b: rgba(124, 58, 237, 0.13);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.62;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- page ground ----------
+   The square graph-paper grid read as a wireframe rather than a
+   finished surface. Replaced with a fine dot matrix over two slow
+   colour washes: still technical, but it sits behind the content
+   instead of competing with the hairline boxes drawn on top of it. */
+.ground {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--paper);
+}
+
+.ground::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 25%, transparent 88%);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 25%, transparent 88%);
+}
+
+.ground .wash {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+.ground .w1 {
+  width: 52vw; height: 52vw; min-width: 480px; min-height: 480px;
+  top: -12%; left: -10%;
+  background: radial-gradient(circle, var(--wash-a), transparent 68%);
+  animation: driftA 34s ease-in-out infinite alternate;
+}
+.ground .w2 {
+  width: 46vw; height: 46vw; min-width: 420px; min-height: 420px;
+  bottom: -14%; right: -8%;
+  background: radial-gradient(circle, var(--wash-b), transparent 68%);
+  animation: driftB 42s ease-in-out infinite alternate;
+}
+@keyframes driftA {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(7%, 9%, 0) scale(1.16); }
+}
+@keyframes driftB {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to   { transform: translate3d(-8%, -7%, 0) scale(0.94); }
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--font-display); text-wrap: balance; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+a { color: var(--cyan); text-decoration: none; }
+img { max-width: 100%; }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--magenta);
+  outline-offset: 3px;
+}
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--step); }
+
+/* ============ HERO: LIVE ROUTE NETWORK ============
+   A canvas of drifting waypoints joined by great-circle links, with
+   traffic running along them. It replaces a flat blue gradient with
+   something that belongs to the subject: this is what his flight
+   planning software is looking at. Drawn on canvas rather than as
+   hand-authored SVG so the node count can scale with the viewport. */
+
+.banner {
+  position: relative;
+  min-height: clamp(300px, 44vh, 430px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 520px at 18% 0%,   rgba(0, 194, 255, 0.28), transparent 62%),
+    radial-gradient(900px 620px at 88% 18%,   rgba(124, 58, 237, 0.30), transparent 60%),
+    radial-gradient(1000px 560px at 60% 108%, rgba(20, 184, 166, 0.24), transparent 62%),
+    linear-gradient(155deg, #050b16 0%, #0a1830 46%, #0d2440 100%);
+}
+
+.banner canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* a slow horizon sweep, like a radar bar crossing the field */
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 46%;
+  background: linear-gradient(90deg, transparent, rgba(0, 194, 255, 0.11), transparent);
+  animation: horizon 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes horizon {
+  0%, 100% { transform: translateX(-60%); }
+  50%      { transform: translateX(180%); }
+}
+
+/* the ground fades the canvas into the page so there is no hard seam */
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 46%;
+  background: linear-gradient(180deg, transparent, var(--paper));
+  pointer-events: none;
+  z-index: 2;
+}
+
+.banner-name {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 0 20px 30px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 6.8vw, 66px);
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-shadow: 0 6px 34px rgba(2, 10, 22, 0.6);
+  animation: fadeUp 1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.banner-sub {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.5vw, 12.5px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(190, 232, 255, 0.92);
+  text-shadow: none;
+  animation: fadeUp 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============ TOP STRIP ============ */
+.strip {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.strip-in {
+  max-width: var(--shell); margin: 0 auto;
+  padding: 10px var(--step);
+  display: flex; align-items: center; gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase;
+}
+
+.strip-id { font-weight: 600; }
+.strip-id em { font-style: normal; color: var(--magenta); }
+
+.strip-nav { margin-left: auto; display: flex; gap: 16px; }
+
+.strip-nav a {
+  position: relative;
+  color: var(--ink-3);
+  padding-bottom: 2px;
+  transition: color 0.18s;
+}
+.strip-nav a::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--cyan);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.strip-nav a:hover { color: var(--cyan); }
+.strip-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.theme-btn {
+  border: 1px solid var(--rule); background: transparent;
+  color: var(--ink-3); font: inherit;
+  text-transform: uppercase; letter-spacing: 0.09em;
+  padding: 3px 9px; cursor: pointer;
+  transition: border-color 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.theme-btn:hover {
+  color: var(--cyan); border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-wash);
+}
+
+/* scroll progress hairline */
+.progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan-lit), var(--magenta));
+  transition: width 0.1s linear;
+}
+
+/* ============ FIELD BOX ============ */
+.field {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  padding: 30px 26px 26px;
+}
+
+.field > .tag,
+.field > .tag-r {
+  position: absolute; top: -8px;
+  padding: 0 8px;
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+.field > .tag   { left: 18px;  color: var(--ink-3); }
+.field > .tag-r { right: 18px; color: var(--cyan); font-weight: 500; letter-spacing: 0.12em; }
+
+/* ============ HERO ============ */
+.hero { padding: clamp(40px, 6vw, 64px) 0 0; }
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-3);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.hero-eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+.hero h1 {
+  font-size: clamp(40px, 8.6vw, 96px);
+  line-height: 0.94; font-weight: 700;
+  letter-spacing: -0.022em; text-transform: uppercase;
+}
+
+/* shimmer travels across the surname once the page settles */
+.hero h1 .sur {
+  display: block;
+  background: linear-gradient(100deg,
+    var(--cyan) 0%, var(--cyan) 36%,
+    var(--cyan-lit) 50%,
+    var(--cyan) 64%, var(--cyan) 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5.5s 1.2s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 62%, 100% { background-position: 140% 50%; }
+  86%           { background-position: -40% 50%; }
+}
+
+/* ---- typewriter ---- */
+.typer {
+  margin: 16px 0 4px;
+  min-height: 1.9em;
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 2.1vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--cyan);
+}
+.typer .caret {
+  display: inline-block;
+  width: 9px;
+  margin-left: 2px;
+  border-bottom: 2px solid var(--magenta);
+  animation: blink 1s steps(1) infinite;
+  transform: translateY(-2px);
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---- routing line ---- */
+.routeline { margin: 14px 0 20px; height: 13px; display: flex; align-items: center; gap: 10px; }
+.routeline .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--magenta); flex: none;
+  animation: ping 2.6s ease-out infinite;
+}
+@keyframes ping {
+  0%        { box-shadow: 0 0 0 0 var(--magenta-wash); }
+  70%, 100% { box-shadow: 0 0 0 11px transparent; }
+}
+.routeline .track {
+  flex: 1; height: 1px;
+  background-image: linear-gradient(90deg, var(--rule) 0 8px, transparent 8px 16px);
+  background-size: 16px 1px; background-repeat: repeat-x;
+  transform-origin: left;
+  animation: draw 1.1s 0.3s cubic-bezier(0.65, 0, 0.35, 1) backwards,
+             crawl 2.2s linear infinite;
+}
+@keyframes draw  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes crawl { to { background-position: 16px 0; } }
+.routeline .plane { flex: none; color: var(--cyan); transform: translateY(1px); }
+
+.hero-lede {
+  max-width: 60ch;
+  font-size: clamp(16px, 1.9vw, 18.5px);
+  color: var(--ink-2);
+}
+
+/* ---- quote ---- */
+.quote {
+  margin-top: 26px;
+  padding: 16px 0 16px 20px;
+  border-left: 3px solid var(--magenta);
+  font-size: clamp(15px, 2vw, 18px);
+  font-style: italic;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* ---- hero data grid ---- */
+.hero-data {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  border: 1px solid var(--rule);
+  background: var(--panel);
+}
+
+.cell {
+  padding: 14px 16px 15px;
+  border-right: 1px solid var(--rule-soft);
+  transition: background 0.2s;
+}
+.cell:last-child { border-right: 0; }
+.cell:hover { background: var(--cyan-wash); }
+
+.cell .k {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 5px;
+}
+.cell .v {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 600;
+  letter-spacing: 0.01em; color: var(--ink);
+}
+.cell .v.on { color: var(--magenta); }
+
+/* ============ SECTION RHYTHM ============ */
+.section { padding: clamp(46px, 7vw, 76px) 0 0; }
+
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+.sec-head h2 {
+  font-size: clamp(20px, 2.7vw, 27px);
+  font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+}
+
+/* a highlight travels the divider rule, echoing the animated README bars */
+.sec-head .rule {
+  position: relative; flex: 1; height: 1px;
+  background: var(--rule); overflow: hidden;
+}
+.sec-head .rule::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--cyan-lit), transparent);
+  transform: translateX(-100%);
+  animation: sweep 5.5s ease-in-out infinite;
+}
+@keyframes sweep {
+  0%, 25%  { transform: translateX(-100%); }
+  75%,100% { transform: translateX(100%); }
+}
+
+.sec-head .count {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
+}
+
+/* ============ COUNTERS ============ */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.metric {
+  background: var(--panel);
+  padding: 22px 18px;
+  text-align: center;
+  transition: background 0.2s;
+}
+.metric:hover { background: var(--cyan-wash); }
+.metric .num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 700; line-height: 1;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+}
+.metric .lab {
+  display: block; margin-top: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ============ TWO-UP ============ */
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+.listing { display: flex; flex-direction: column; gap: 13px; }
+.listing li {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px;
+  align-items: baseline; font-size: 15px; color: var(--ink-2);
+  transition: transform 0.2s;
+}
+.listing li:hover { transform: translateX(4px); }
+.listing .idx { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--cyan); }
+.listing b { color: var(--ink); font-weight: 600; }
+
+/* ============ STACK ============ */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper); color: var(--ink-2);
+  transition: color 0.16s, border-color 0.16s, transform 0.16s, box-shadow 0.16s;
+}
+.chip:hover {
+  color: var(--cyan); border-color: var(--cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px -8px var(--glow);
+}
+
+/* ============ PROJECTS ============ */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(298px, 1fr)); gap: 18px; }
+
+.card {
+  position: relative;
+  display: flex; flex-direction: column; gap: 11px;
+  padding: 22px 22px 20px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.card::before {
+  content: "";
+  position: absolute; inset: 0 auto auto 0;
+  height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--cyan-lit), var(--magenta));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card:hover, .card:focus-within {
+  border-color: var(--cyan);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px -22px var(--glow);
+}
+.card:hover::before, .card:focus-within::before { transform: scaleX(1); }
+
+.card .no {
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
+}
+.card h3 { font-size: 19px; font-weight: 700; line-height: 1.2; }
+.card h3 a { color: var(--ink); transition: color 0.18s; }
+.card:hover h3 a { color: var(--cyan); }
+.card p { font-size: 14.5px; color: var(--ink-2); flex: 1; }
+.card .foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 4px; }
+
+.lang {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--magenta); background: var(--magenta-wash);
+  padding: 3px 8px;
+}
+.card .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--paper);
+  background: var(--cyan);
+  padding: 4px 10px;
+  transition: filter 0.16s, transform 0.16s;
+}
+.card .live:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+/* the pulsing dot marks it as something actually running, not a repo */
+.card .live i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--paper);
+  animation: livedot 1.9s ease-in-out infinite;
+}
+@keyframes livedot { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.card .go {
+  margin-left: auto;
+  font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--cyan);
+  transition: transform 0.2s;
+}
+.card:hover .go { transform: translateX(4px); }
+
+/* ============ CERTIFICATIONS ============ */
+.certs { display: flex; flex-direction: column; }
+.cert {
+  display: grid; grid-template-columns: 1fr auto; gap: 14px;
+  align-items: baseline; padding: 13px 0;
+  border-bottom: 1px dashed var(--rule);
+  transition: padding-left 0.22s;
+}
+.cert:last-child { border-bottom: 0; }
+.cert:hover { padding-left: 8px; }
+.cert b { font-weight: 600; font-size: 15.5px; }
+.cert span { font-size: 14px; color: var(--ink-2); }
+.cert .kind {
+  font-family: var(--font-mono); font-size: 10.5px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-3); white-space: nowrap;
+}
+
+/* ============ CONTACT ============ */
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.contact-grid a {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 20px; background: var(--panel);
+  transition: background 0.18s;
+}
+.contact-grid a:hover { background: var(--cyan-wash); }
+.contact-grid .k {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
+}
+.contact-grid .v {
+  font-family: var(--font-display); font-size: 17px; font-weight: 600;
+  color: var(--ink); overflow-wrap: anywhere;
+  transition: color 0.18s;
+}
+.contact-grid a:hover .v { color: var(--cyan); }
+
+/* ============ FOOTER ============ */
+.foot-strip { margin-top: clamp(52px, 8vw, 88px); border-top: 1px solid var(--rule); padding: 22px 0 40px; }
+.foot-in {
+  max-width: var(--shell); margin: 0 auto; padding: 0 var(--step);
+  display: flex; flex-wrap: wrap; gap: 10px 20px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+}
+.foot-in .sp { margin-left: auto; }
+
+/* ============ GITHUB ACTIVITY ============ */
+.gh-stack { display: flex; flex-direction: column; gap: 18px; }
+
+.gh-card {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  padding: 30px 22px 22px;
+  display: grid;
+  place-items: center;
+  min-height: 90px;
+  overflow-x: auto;
+}
+.gh-card > .tag {
+  position: absolute; top: -8px; left: 18px;
+  padding: 0 8px; background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.gh-card img { display: block; width: 100%; max-width: 760px; height: auto; }
+.gh-card.wide img { max-width: 100%; }
+
+/* The contribution grid is served with hard-coded near-white empty
+   cells and no background parameter, so on the dark ground it lands as
+   a glaring white slab. Inverting and rotating the hue back darkens the
+   empty cells while leaving the filled ones their original colour. */
+.gh-card[data-invert] img { filter: invert(0.92) hue-rotate(180deg); }
+:root[data-theme="light"] .gh-card[data-invert] img { filter: none; }
+
+/* if a third-party widget dies, the card removes itself rather than
+   leaving a broken image — see the img onerror handlers */
+.gh-card.dead { display: none; }
+
+.gh-note {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 10.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-3);
+  text-align: center;
+}
+
+/* ============ MARQUEE ============ */
+.marquee {
+  margin-top: 18px;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 11px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+.marquee-track {
+  display: flex; width: max-content; gap: 0;
+  animation: slide 26s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee span {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 20px;
+  white-space: nowrap;
+}
+.marquee span i { font-style: normal; color: var(--cyan); margin-right: 20px; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ============ CURSOR SPOTLIGHT ON CARDS ============ */
+.card::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
+              var(--cyan-wash), transparent 68%);
+  opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.card:hover::after { opacity: 1; }
+
+/* the flagship gets a slowly travelling gradient edge */
+.card.flagship {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    linear-gradient(115deg, var(--cyan-lit), var(--magenta), var(--cyan-lit)) border-box;
+  background-size: auto, 260% 100%;
+  border: 1px solid transparent;
+  animation: edge 7s ease-in-out infinite;
+}
+@keyframes edge {
+  0%, 100% { background-position: 0 0, 0% 50%; }
+  50%      { background-position: 0 0, 100% 50%; }
+}
+
+/* ============ SCROLLSPY ============ */
+.strip-nav a.active { color: var(--cyan); }
+.strip-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+
+/* ============ PROJECT FILTER ============ */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+.filter {
+  font-family: var(--font-mono);
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 13px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: color 0.16s, border-color 0.16s, background 0.16s;
+}
+.filter:hover { color: var(--cyan); border-color: var(--cyan); }
+.filter[aria-pressed="true"] {
+  color: var(--paper);
+  background: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.card.hidden { display: none; }
+
+/* ============ COPY BUTTON ============ */
+.copy-row { display: flex; align-items: center; gap: 8px; }
+
+.copy-btn {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: color 0.16s, border-color 0.16s;
+}
+.copy-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+.copy-btn.done { color: var(--magenta); border-color: var(--magenta); }
+
+/* ============ LIVE REPO META ============ */
+.meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.meta.pending { opacity: 0.45; }
+
+/* ============ BACK TO TOP ============ */
+.totop {
+  position: fixed; right: 20px; bottom: 20px; z-index: 30;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  color: var(--cyan);
+  cursor: pointer;
+  opacity: 0; transform: translateY(10px); pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s, border-color 0.2s, box-shadow 0.2s;
+}
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { border-color: var(--cyan); box-shadow: 0 0 0 4px var(--cyan-wash); }
+
+/* ============ MOTION ============ */
+@keyframes lift { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+.seq { opacity: 0; animation: lift 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.seq.d1 { animation-delay: 0.05s; }
+.seq.d2 { animation-delay: 0.15s; }
+.seq.d3 { animation-delay: 0.25s; }
+.seq.d4 { animation-delay: 0.35s; }
+.seq.d5 { animation-delay: 0.45s; }
+.seq.d6 { animation-delay: 0.55s; }
+
+.hero-data .cell { opacity: 0; animation: lift 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.hero-data .cell:nth-child(1) { animation-delay: 0.60s; }
+.hero-data .cell:nth-child(2) { animation-delay: 0.67s; }
+.hero-data .cell:nth-child(3) { animation-delay: 0.74s; }
+.hero-data .cell:nth-child(4) { animation-delay: 0.81s; }
+.hero-data .cell:nth-child(5) { animation-delay: 0.88s; }
+
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .seq, .hero-data .cell { opacity: 1; }
+}
+
+/* ============ NARROW ============ */
+@media (max-width: 620px) {
+  .strip-nav { display: none; }
+  .cell { border-right: 0; border-bottom: 1px solid var(--rule-soft); }
+  .field { padding: 28px 18px 22px; }
+  .cert { grid-template-columns: 1fr; gap: 3px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ WAVE BANNER ============ -->
+<div class="ground" aria-hidden="true">
+  <span class="wash w1"></span>
+  <span class="wash w2"></span>
+</div>
+
+<div class="banner">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="banner-name">
+    Madhusudhan Ramshetty
+    <span class="banner-sub">Building real-world solutions through code</span>
+  </div>
+</div>
+
+<!-- ============ TOP STRIP ============ -->
+<header class="strip">
+  <div class="strip-in">
+    <span class="strip-id">MR<em>/</em>PORTFOLIO</span>
+    <nav class="strip-nav">
+      <a href="#about">About</a>
+      <a href="#now">Now</a>
+      <a href="#work">Work</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#profiles">Profiles</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main class="shell">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <p class="hero-eyebrow seq d1">Full Stack Developer &nbsp;·&nbsp; AI Enthusiast</p>
+
+    <h1 class="seq d2">
+      Madhusudhan
+      <span class="sur">Ramshetty</span>
+    </h1>
+
+    <p class="typer seq d3" id="typer" aria-live="polite"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+
+    <div class="routeline seq d3" aria-hidden="true">
+      <span class="dot"></span>
+      <span class="track"></span>
+      <span class="plane">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l3.2 3.9-2 2-2.2-.6a.5.5 0 0 0-.5.8L5 15.5l1.4 2.2a.5.5 0 0 0 .8-.5l-.6-2.2 2-2 3.9 3.2a.5.5 0 0 0 .8-.5Z"/>
+        </svg>
+      </span>
+    </div>
+
+    <p class="hero-lede seq d4">
+      Computer Science Engineering student building performant web applications
+      and exploring modern AI integrations. I take ideas from concept to working,
+      maintainable code — most recently a converter that turns raw ForeFlight
+      exports into airline-standard operational flight plans.
+    </p>
+
+    <blockquote class="quote seq d5">
+      “Code is not just syntax. It's the power to turn imagination into reality.”
+    </blockquote>
+
+    <div class="hero-data" role="list">
+      <div class="cell" role="listitem"><span class="k">Discipline</span><span class="v">B.Tech CSE</span></div>
+      <div class="cell" role="listitem"><span class="k">Batch</span><span class="v mono">2024–28</span></div>
+      <div class="cell" role="listitem"><span class="k">Institution</span><span class="v">Alliance University</span></div>
+      <div class="cell" role="listitem"><span class="k">Focus</span><span class="v">Full Stack &amp; AI</span></div>
+      <div class="cell" role="listitem"><span class="k">Based</span><span class="v">Bengaluru, IN</span></div>
+      <div class="cell" role="listitem"><span class="k">Status</span><span class="v on">Open to work</span></div>
+    </div>
+  </section>
+
+  <!-- ============ METRICS ============ -->
+  <section class="section">
+    <div class="sec-head reveal">
+      <h2>By the numbers</h2><span class="rule"></span><span class="count">Live from GitHub</span>
+    </div>
+    <div class="metrics reveal">
+      <div class="metric"><span class="num" data-count="8">0</span><span class="lab">Public repos</span></div>
+      <div class="metric"><span class="num" data-count="6">0</span><span class="lab">Shipped projects</span></div>
+      <div class="metric"><span class="num" data-count="4">0</span><span class="lab">Certifications</span></div>
+      <div class="metric"><span class="num" data-count="11">0</span><span class="lab">Technologies</span></div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="section" id="about">
+    <div class="sec-head reveal">
+      <h2>About</h2><span class="rule"></span><span class="count">01</span>
+    </div>
+    <div class="field reveal">
+      <span class="tag">Summary</span>
+      <span class="tag-r">Bengaluru, IN</span>
+      <p style="max-width:68ch; color:var(--ink-2); font-size:16.5px;">
+        I like problems where the output has to be exactly right. My aviation work
+        is a good example — an operational flight plan is a working document, so a
+        fuel figure that is twenty pounds out is simply wrong, not close enough.
+        That constraint is what got me interested in parsing, deterministic
+        transforms and print-accurate rendering. Alongside it I build conventional
+        web applications, and I am steadily working through the computer science
+        fundamentals underneath all of it.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ NOW ============ -->
+  <section class="section" id="now">
+    <div class="sec-head reveal">
+      <h2>Now</h2><span class="rule"></span><span class="count">02</span>
+    </div>
+    <div class="duo">
+      <div class="field reveal">
+        <span class="tag">Building</span>
+        <ul class="listing">
+          <li><span class="idx">→</span><span><b>ForeFlight NavLog Converter</b> — a web application that parses flight data exports and generates print-ready OPS flight plans in four operator formats.</span></li>
+          <li><span class="idx">→</span><span><b>Smart Traffic Management System</b> — a computer-vision concept for AI-driven traffic monitoring.</span></li>
+        </ul>
+      </div>
+      <div class="field reveal">
+        <span class="tag">Learning</span>
+        <ul class="listing">
+          <li><span class="idx">→</span><span><b>React</b> — component state architecture beyond the basics.</span></li>
+          <li><span class="idx">→</span><span><b>REST API design</b> — integration patterns and sensible contracts.</span></li>
+          <li><span class="idx">→</span><span><b>CI/CD</b> — GitHub Actions and automated deployment workflows.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="section">
+    <div class="sec-head reveal">
+      <h2>Stack</h2><span class="rule"></span><span class="count">03</span>
+    </div>
+    <div class="field reveal">
+      <span class="tag">In active use</span>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">React</span>
+        <span class="chip">Flask</span><span class="chip">HTML5</span><span class="chip">CSS3</span>
+        <span class="chip">C</span><span class="chip">C++</span><span class="chip">Git</span>
+        <span class="chip">GitHub</span><span class="chip">VS Code</span>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
+          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GITHUB ACTIVITY ============ -->
+  <section class="section" id="activity">
+    <div class="sec-head reveal">
+      <h2>GitHub Activity</h2><span class="rule"></span><span class="count">Updated live</span>
+    </div>
+
+    <div class="gh-stack">
+      <div class="gh-card reveal" data-gh>
+        <span class="tag">Contribution streak</span>
+        <img alt="Current and longest GitHub contribution streaks"
+             loading="lazy"
+             src="https://streak-stats.demolab.com?user=madhusudhan1260&hide_border=true&background=00000000&stroke=00a8cc&ring=00a8cc&fire=ff6b9d&currStreakNum=8aa0a8&sideNums=8aa0a8&currStreakLabel=00a8cc&sideLabels=8aa0a8&dates=6d838c" />
+      </div>
+
+      <div class="gh-card wide reveal" data-gh data-invert>
+        <span class="tag">Contribution grid · past year</span>
+        <img alt="GitHub contribution grid for the past year"
+             loading="lazy"
+             src="https://ghchart.rshah.org/00a8cc/madhusudhan1260" />
+      </div>
+
+      <div class="gh-card wide reveal" data-gh>
+        <span class="tag">Commit activity</span>
+        <img alt="Graph of recent commit activity"
+             loading="lazy"
+             src="https://github-readme-activity-graph.vercel.app/graph?username=madhusudhan1260&bg_color=00000000&color=8aa0a8&line=00a8cc&point=ff6b9d&area=true&hide_border=true" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section class="section" id="work">
+    <div class="sec-head reveal">
+      <h2>Selected Work</h2><span class="rule"></span><span class="count">04 &nbsp;·&nbsp; 6 repositories</span>
+    </div>
+    <div class="filters reveal" role="group" aria-label="Filter projects by area">
+      <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" type="button" data-filter="aviation" aria-pressed="false">Aviation</button>
+      <button class="filter" type="button" data-filter="security" aria-pressed="false">Security</button>
+      <button class="filter" type="button" data-filter="frontend" aria-pressed="false">Frontend</button>
+      <button class="filter" type="button" data-filter="hackathon" aria-pressed="false">Hackathon</button>
+    </div>
+
+    <div class="grid">
+
+      <article data-repo="Navlog-convertor-website-2.0" data-area="aviation" class="card flagship reveal">
+        <span class="no">Aviation · Flagship</span>
+        <h3><a href="https://github.com/madhusudhan1260/Navlog-convertor-website-2.0">NavLog Converter 2.0</a></h3>
+        <p>Parses ForeFlight HTML exports into structured JSON, then renders operator-specific operational flight plans as print-ready PDFs — fuel policy, alternates, enroute winds and ATC plan. Deployed and running, with a Flask API behind token auth.</p>
+        <div class="foot">
+          <a class="live" href="https://navlog-convertor-website-2-0-me9x.vercel.app" target="_blank" rel="noopener"><i></i>Live app</a>
+          <span class="lang">Python</span><span class="lang">React</span>
+          <span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span>
+        </div>
+      </article>
+
+      <article data-repo="Navlog_Project" data-area="aviation" class="card reveal">
+        <span class="no">Aviation</span>
+        <h3><a href="https://github.com/madhusudhan1260/Navlog_Project">NavLog Project</a></h3>
+        <p>The original converter: extracts ForeFlight flight data and generates airline-style Operational Flight Plans covering route, fuel, waypoints, airport data and ATC details.</p>
+        <div class="foot"><span class="lang">Python</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="Codex-Traffic-management-system-" data-area="hackathon" class="card reveal">
+        <span class="no">Hackathon</span>
+        <h3><a href="https://github.com/madhusudhan1260/Codex-Traffic-management-system-">Traffic Management System</a></h3>
+        <p>A traffic monitoring and signal-control concept built for the CodeVeda hackathon, focused on responsive control logic and a clear operator interface.</p>
+        <div class="foot"><span class="lang">HTML</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="javascript-cryptography-lab" data-area="security" class="card reveal">
+        <span class="no">Security</span>
+        <h3><a href="https://github.com/madhusudhan1260/javascript-cryptography-lab">JavaScript Cryptography Lab</a></h3>
+        <p>Core cryptography algorithms, hashing logic and key operations implemented from first principles in modern JavaScript.</p>
+        <div class="foot"><span class="lang">JavaScript</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="python-cryptography" data-area="security" class="card reveal">
+        <span class="no">Security</span>
+        <h3><a href="https://github.com/madhusudhan1260/python-cryptography">Python Cryptography</a></h3>
+        <p>The same ground covered in Python — classical ciphers and modern primitives, written to understand the mechanics rather than call a library.</p>
+        <div class="foot"><span class="lang">Python</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="Maddy-s-restaurant" data-area="frontend" class="card reveal">
+        <span class="no">Frontend</span>
+        <h3><a href="https://github.com/madhusudhan1260/Maddy-s-restaurant">Restaurant Menu Website</a></h3>
+        <p>A responsive frontend with dynamic menu categorisation and interaction handling — an exercise in layout, state and a clean interface.</p>
+        <div class="foot"><span class="lang">HTML</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ CREDENTIALS ============ -->
+  <section class="section" id="credentials">
+    <div class="sec-head reveal">
+      <h2>Credentials</h2><span class="rule"></span><span class="count">04</span>
+    </div>
+    <div class="field reveal">
+      <span class="tag">Certifications &amp; honours</span>
+      <div class="certs">
+        <div class="cert"><span><b>CodeVeda Hackathon</b> — rapid problem solving and web software development under time pressure.</span><span class="kind">Hackathon</span></div>
+        <div class="cert"><span><b>KAIST</b> — specialised technical coursework.</span><span class="kind">Coursework</span></div>
+        <div class="cert"><span><b>The University of Sydney</b> — professional and academic certification.</span><span class="kind">Certificate</span></div>
+        <div class="cert"><span><b>Universiteit Leiden</b> — advanced foundational learning certificate.</span><span class="kind">Certificate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CODING PROFILES ============ -->
+  <section class="section" id="profiles">
+    <div class="sec-head reveal">
+      <h2>Problem Solving</h2><span class="rule"></span><span class="count">05 &nbsp;·&nbsp; 4 platforms</span>
+    </div>
+    <div class="contact-grid reveal">
+      <a href="https://leetcode.com/u/madhusudhan_1260/" target="_blank" rel="noopener">
+        <span class="k">LeetCode</span><span class="v">madhusudhan_1260</span>
+      </a>
+      <a href="https://www.codechef.com/users/many_bears_11" target="_blank" rel="noopener">
+        <span class="k">CodeChef</span><span class="v">many_bears_11</span>
+      </a>
+      <a href="https://www.hackerrank.com/profile/madhusudhanBTEC1" target="_blank" rel="noopener">
+        <span class="k">HackerRank</span><span class="v">madhusudhanBTEC1</span>
+      </a>
+      <a href="https://www.hackerearth.com/@madhuusudhann01/" target="_blank" rel="noopener">
+        <span class="k">HackerEarth</span><span class="v">madhuusudhann01</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section" id="contact">
+    <div class="sec-head reveal">
+      <h2>Contact</h2><span class="rule"></span><span class="count">06</span>
+    </div>
+    <div class="contact-grid reveal">
+      <a href="mailto:madhuusudhann01@gmail.com">
+        <span class="k copy-row">Email
+          <button class="copy-btn" type="button" id="copyMail"
+                  data-mail="madhuusudhann01@gmail.com">Copy</button>
+        </span>
+        <span class="v">madhuusudhann01@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/madhusudhan1203/" target="_blank" rel="noopener">
+        <span class="k">LinkedIn</span><span class="v">in/madhusudhan1203</span>
+      </a>
+      <a href="https://github.com/madhusudhan1260" target="_blank" rel="noopener">
+        <span class="k">GitHub</span><span class="v">@madhusudhan1260</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<footer class="foot-strip">
+  <div class="foot-in">
+    <span>Madhusudhan Ramshetty</span>
+    <span>Keep learning · keep building</span>
+    <span class="sp">Bengaluru, India</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- theme toggle ---------- */
+  var root = document.documentElement;
+  var btn = document.getElementById("themeToggle");
+  var saved = null;
+  try { saved = localStorage.getItem("mr-theme"); } catch (e) { /* private mode */ }
+  if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+
+  /* dark is the default with no attribute set, so an absent attribute
+     means dark rather than "follow the OS" */
+  function toggleTheme() {
+    var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("mr-theme", next); } catch (e) { /* ignore */ }
+  }
+
+  btn.addEventListener("click", toggleTheme);
+
+  /* T toggles the theme, unless the user is typing somewhere */
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "t" && e.key !== "T") return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var tag = (e.target.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
+    toggleTheme();
+  });
+
+  /* ---------- typewriter ---------- */
+  var LINES = [
+    "Building real world solutions",
+    "JavaScript | React developer",
+    "Passionate about AI & web dev",
+    "Always learning & creating"
+  ];
+  var out = document.getElementById("typed");
+
+  if (reduced) {
+    out.textContent = LINES[0];
+  } else {
+    var li = 0, ci = 0, erasing = false;
+    (function tick() {
+      var line = LINES[li];
+      out.textContent = line.slice(0, ci);
+
+      var wait = erasing ? 34 : 62;
+      if (!erasing && ci === line.length) { erasing = true; wait = 1500; }
+      else if (erasing && ci === 0) { erasing = false; li = (li + 1) % LINES.length; wait = 260; }
+      else { ci += erasing ? -1 : 1; }
+
+      setTimeout(tick, wait);
+    })();
+  }
+
+  /* ---------- hero: live route network ----------
+     Waypoints drift, nearby ones link up, and traffic runs along the
+     links. Node count scales with area so a phone is not asked to draw
+     a laptop's worth of geometry, and the loop stops entirely once the
+     hero scrolls away — an offscreen canvas repainting at 60fps is the
+     classic way these headers quietly drain a battery. */
+  (function routeNetwork() {
+    var canvas = document.getElementById("net");
+    if (!canvas || reduced) return;
+
+    var ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    var W = 0, H = 0, dpr = 1;
+    var nodes = [], flights = [];
+    var LINK = 132;          /* px within which two waypoints connect */
+    var running = true, rafId = null;
+
+    function size() {
+      var rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = rect.width; H = rect.height;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    }
+
+    function build() {
+      var target = Math.round(Math.min(78, Math.max(26, (W * H) / 13000)));
+      nodes = [];
+      for (var i = 0; i < target; i++) {
+        nodes.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          r: Math.random() * 1.5 + 0.9,
+          /* a few waypoints are "major" and get a halo */
+          major: Math.random() < 0.13
+        });
+      }
+      flights = [];
+      for (var f = 0; f < Math.max(3, Math.round(target / 11)); f++) newFlight();
+    }
+
+    function newFlight() {
+      if (nodes.length < 2) return;
+      var a = (Math.random() * nodes.length) | 0;
+      var b = (Math.random() * nodes.length) | 0;
+      if (a === b) b = (b + 1) % nodes.length;
+      flights.push({ a: a, b: b, t: 0, speed: 0.0022 + Math.random() * 0.0034 });
+    }
+
+    function draw() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+
+      var i, j, n, m, dx, dy, d;
+
+      /* links */
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
+        if (n.y < -20) n.y = H + 20; else if (n.y > H + 20) n.y = -20;
+
+        for (j = i + 1; j < nodes.length; j++) {
+          m = nodes[j];
+          dx = n.x - m.x; dy = n.y - m.y;
+          d = Math.sqrt(dx * dx + dy * dy);
+          if (d > LINK) continue;
+          ctx.globalAlpha = (1 - d / LINK) * 0.34;
+          ctx.strokeStyle = "#7fd8f5";
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(m.x, m.y);
+          ctx.stroke();
+        }
+      }
+
+      /* waypoints */
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        if (n.major) {
+          ctx.globalAlpha = 0.16;
+          ctx.fillStyle = "#00c2ff";
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * 5.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = n.major ? 0.95 : 0.62;
+        ctx.fillStyle = n.major ? "#9fe8ff" : "#cfe9f4";
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      /* traffic running between waypoints */
+      for (i = flights.length - 1; i >= 0; i--) {
+        var fl = flights[i];
+        var A = nodes[fl.a], B = nodes[fl.b];
+        if (!A || !B) { flights.splice(i, 1); newFlight(); continue; }
+
+        fl.t += fl.speed;
+        if (fl.t >= 1) { flights.splice(i, 1); newFlight(); continue; }
+
+        var px = A.x + (B.x - A.x) * fl.t;
+        var py = A.y + (B.y - A.y) * fl.t;
+
+        /* the trail behind it */
+        var tt = Math.max(0, fl.t - 0.09);
+        ctx.globalAlpha = 0.5;
+        var grad = ctx.createLinearGradient(
+          A.x + (B.x - A.x) * tt, A.y + (B.y - A.y) * tt, px, py);
+        grad.addColorStop(0, "rgba(0,194,255,0)");
+        grad.addColorStop(1, "rgba(0,194,255,0.85)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(A.x + (B.x - A.x) * tt, A.y + (B.y - A.y) * tt);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(px, py, 1.9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      rafId = requestAnimationFrame(draw);
+    }
+
+    size();
+    draw();
+
+    var rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(size, 180);
+    });
+
+    /* stop drawing once the hero is off screen */
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        var visible = entries[0].isIntersecting;
+        if (visible && !running) { running = true; draw(); }
+        else if (!visible && running) { running = false; cancelAnimationFrame(rafId); }
+      }, { threshold: 0 }).observe(canvas);
+    }
+  })();
+
+  /* ---------- scrollspy ----------
+     Highlights the section currently under the header rather than the
+     last one clicked, so the nav still reads correctly after scrolling. */
+  (function scrollspy() {
+    var links = Array.prototype.slice.call(document.querySelectorAll(".strip-nav a"));
+    var targets = links
+      .map(function (a) {
+        return { link: a, el: document.querySelector(a.getAttribute("href")) };
+      })
+      .filter(function (t) { return t.el; });
+
+    if (!targets.length) return;
+
+    function mark() {
+      var line = window.scrollY + 140;   /* just below the sticky strip */
+      var current = null;
+      targets.forEach(function (t) {
+        if (t.el.offsetTop <= line) current = t;
+      });
+
+      /* The final section sits too close to the bottom for its top edge
+         ever to cross the line, so it would never light up. Once the
+         page is scrolled as far as it goes, the last one is the one
+         being read. */
+      var bottom = document.documentElement.scrollHeight - window.innerHeight;
+      if (bottom - window.scrollY < 4) current = targets[targets.length - 1];
+
+      links.forEach(function (a) { a.classList.remove("active"); });
+      if (current) current.link.classList.add("active");
+    }
+
+    window.addEventListener("scroll", mark, { passive: true });
+    mark();
+  })();
+
+  /* ---------- project filter ---------- */
+  (function filters() {
+    var buttons = document.querySelectorAll(".filter");
+    var cards = document.querySelectorAll(".card[data-area]");
+    if (!buttons.length) return;
+
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var want = b.getAttribute("data-filter");
+        buttons.forEach(function (o) {
+          o.setAttribute("aria-pressed", String(o === b));
+        });
+        cards.forEach(function (c) {
+          var show = want === "all" || c.getAttribute("data-area") === want;
+          c.classList.toggle("hidden", !show);
+        });
+      });
+    });
+  })();
+
+  /* ---------- copy email ---------- */
+  (function copyMail() {
+    var b = document.getElementById("copyMail");
+    if (!b || !navigator.clipboard) return;
+
+    b.addEventListener("click", function (e) {
+      /* the tile is a mailto link — don't open a mail client too */
+      e.preventDefault();
+      e.stopPropagation();
+
+      navigator.clipboard.writeText(b.getAttribute("data-mail")).then(function () {
+        b.textContent = "Copied";
+        b.classList.add("done");
+        setTimeout(function () {
+          b.textContent = "Copy";
+          b.classList.remove("done");
+        }, 1800);
+      }).catch(function () {
+        b.textContent = "Press ⌘C";
+      });
+    });
+  })();
+
+  /* ---------- live repo metadata ----------
+     Reads the public API at view time so "updated 3 days ago" stays true
+     without anyone editing this file. Unauthenticated and read-only; if
+     the rate limit is hit or the network is down the placeholders simply
+     stay blank rather than showing a stale hard-coded date. */
+  (function liveRepos() {
+    var slots = document.querySelectorAll(".card[data-repo]");
+    if (!slots.length || !window.fetch) return;
+
+    function ago(iso) {
+      var days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+      if (days <= 0) return "updated today";
+      if (days === 1) return "updated yesterday";
+      if (days < 30) return "updated " + days + "d ago";
+      var months = Math.floor(days / 30);
+      if (months < 12) return "updated " + months + "mo ago";
+      return "updated " + Math.floor(months / 12) + "y ago";
+    }
+
+    fetch("https://api.github.com/users/madhusudhan1260/repos?per_page=100&sort=updated")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (repos) {
+        var byName = {};
+        repos.forEach(function (r) { byName[r.name.toLowerCase()] = r; });
+
+        slots.forEach(function (card) {
+          var repo = byName[(card.getAttribute("data-repo") || "").toLowerCase()];
+          var slot = card.querySelector("[data-updated]");
+          if (!repo || !slot) { if (slot) slot.remove(); return; }
+          slot.textContent = ago(repo.pushed_at);
+          slot.classList.remove("pending");
+        });
+      })
+      .catch(function () {
+        document.querySelectorAll("[data-updated]").forEach(function (s) { s.remove(); });
+      });
+  })();
+
+  /* ---------- third-party widget fallback ----------
+     The streak and contribution graphs come from public services that do
+     go down — github-readme-stats was returning 503 while this page was
+     built. A dead service should cost a section, not leave a broken
+     image icon in the middle of the portfolio. */
+  document.querySelectorAll("[data-gh] img").forEach(function (img) {
+    img.addEventListener("error", function () {
+      var card = img.closest("[data-gh]");
+      if (card) card.classList.add("dead");
+    });
+  });
+
+  /* ---------- cursor spotlight on project cards ---------- */
+  if (!reduced && window.matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    });
+  }
+
+  /* ---------- scroll progress, banner parallax, back to top ---------- */
+  var bar = document.getElementById("progress");
+  var nameBlock = document.querySelector(".banner-name");
+  var toTop = document.getElementById("totop");
+  var ticking = false;
+
+  function frame() {
+    var y = window.scrollY;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+
+    /* banner drifts at half speed and fades as it leaves */
+    if (!reduced && y < 420) {
+      if (nameBlock) {
+        nameBlock.style.transform = "translateY(" + (y * 0.32) + "px)";
+        nameBlock.style.opacity = String(Math.max(0, 1 - y / 300));
+      }
+    }
+
+    toTop.classList.toggle("show", y > 700);
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  frame();
+
+  toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  });
+
+  /* ---------- count-up ---------- */
+  function countUp(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    if (reduced) { el.textContent = target; return; }
+    var started = null, dur = 1100;
+    function step(now) {
+      if (started === null) started = now;
+      var p = Math.min((now - started) / dur, 1);
+      /* ease-out so it settles rather than stopping dead */
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- scroll reveal ---------- */
+  var items = document.querySelectorAll(".reveal");
+  var nums = document.querySelectorAll(".num[data-count]");
+
+  if (!("IntersectionObserver" in window) || reduced) {
+    items.forEach(function (el) { el.classList.add("in"); });
+    nums.forEach(countUp);
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in");
+      entry.target.querySelectorAll(".num[data-count]").forEach(countUp);
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+
+  items.forEach(function (el, i) {
+    el.style.transitionDelay = (i % 3) * 70 + "ms";
+    io.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>v
