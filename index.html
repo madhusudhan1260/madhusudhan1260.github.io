@@ -159,18 +159,19 @@ a:focus-visible, button:focus-visible {
 
 .shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--step); }
 
-/* ============ HERO: LIVE ROUTE NETWORK ============
-   A canvas of drifting waypoints joined by great-circle links, with
-   traffic running along them. It replaces a flat blue gradient with
-   something that belongs to the subject: this is what his flight
-   planning software is looking at. Drawn on canvas rather than as
-   hand-authored SVG so the node count can scale with the viewport. */
+/* ============ HERO: CIRCUIT PULSE ============
+   A canvas of PCB-style traces with a light pulse travelling each
+   one, sitting behind the name, typewriter line and route indicator
+   — the whole intro lives on one animated surface instead of a flat
+   gradient with plain text on top. Drawn on canvas rather than
+   hand-authored SVG so the trace count can scale with the viewport. */
 
 .banner {
   position: relative;
-  min-height: clamp(300px, 44vh, 430px);
-  display: grid;
-  place-items: center;
+  min-height: clamp(420px, 58vh, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   isolation: isolate;
   background:
@@ -216,38 +217,65 @@ a:focus-visible, button:focus-visible {
   z-index: 2;
 }
 
-.banner-name {
+.banner-intro {
   position: relative;
   z-index: 3;
+  width: 100%;
+  max-width: 640px;
+  padding: 0 24px;
   text-align: center;
-  padding: 0 20px 30px;
   color: #fff;
+}
+
+.banner-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.5vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(190, 232, 255, 0.85);
+}
+
+.banner-intro h1 {
+  margin-top: 14px;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(32px, 6.8vw, 66px);
-  line-height: 1.02;
-  letter-spacing: 0.005em;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   text-shadow: 0 6px 34px rgba(2, 10, 22, 0.6);
-  animation: fadeUp 1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-.banner-sub {
+/* shimmer travels across the surname once the page settles.
+   Fixed colours, not the theme variables: the banner's gradient is
+   always dark regardless of the site theme, so text on it can't
+   borrow the light theme's darker cyan without losing contrast. */
+.banner-intro h1 .sur {
   display: block;
-  margin-top: 12px;
-  font-family: var(--font-mono);
-  font-size: clamp(10px, 1.5vw, 12.5px);
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(190, 232, 255, 0.92);
-  text-shadow: none;
-  animation: fadeUp 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  background: linear-gradient(100deg,
+    #3fc9e4 0%, #3fc9e4 36%,
+    #00c2ff 50%,
+    #3fc9e4 64%, #3fc9e4 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5.5s 1.6s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%, 62%, 100% { background-position: 140% 50%; }
+  86%           { background-position: -40% 50%; }
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: none; }
+/* same reasoning: fixed colours for the always-dark banner, not the
+   theme-variable ones the typer/routeline use elsewhere on the page */
+.banner-intro .typer { margin: 18px auto 4px; color: #00c2ff; }
+.banner-intro .typer .caret { border-bottom-color: #ff6b9d; }
+.banner-intro .routeline { margin: 14px auto 0; }
+.banner-intro .routeline .dot { background: #ff6b9d; }
+.banner-intro .routeline .track {
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.26) 0 8px, transparent 8px 16px);
 }
 
 /* ============ TOP STRIP ============ */
@@ -331,40 +359,6 @@ a:focus-visible, button:focus-visible {
 
 /* ============ HERO ============ */
 .hero { padding: clamp(40px, 6vw, 64px) 0 0; }
-
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11.5px; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ink-3);
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 16px;
-}
-.hero-eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
-
-.hero h1 {
-  font-size: clamp(40px, 8.6vw, 96px);
-  line-height: 0.94; font-weight: 700;
-  letter-spacing: -0.022em; text-transform: uppercase;
-}
-
-/* shimmer travels across the surname once the page settles */
-.hero h1 .sur {
-  display: block;
-  background: linear-gradient(100deg,
-    var(--cyan) 0%, var(--cyan) 36%,
-    var(--cyan-lit) 50%,
-    var(--cyan) 64%, var(--cyan) 100%);
-  background-size: 260% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 5.5s 1.2s ease-in-out infinite;
-}
-@keyframes shimmer {
-  0%, 62%, 100% { background-position: 140% 50%; }
-  86%           { background-position: -40% 50%; }
-}
 
 /* ---- typewriter ---- */
 .typer {
@@ -890,9 +884,25 @@ a:focus-visible, button:focus-visible {
 
 <div class="banner">
   <canvas id="net" aria-hidden="true"></canvas>
-  <div class="banner-name">
-    Madhusudhan Ramshetty
-    <span class="banner-sub">Building real-world solutions through code</span>
+  <div class="banner-intro">
+    <p class="banner-eyebrow seq d1">Full Stack Developer &nbsp;·&nbsp; AI Enthusiast</p>
+
+    <h1 class="seq d2">
+      Madhusudhan
+      <span class="sur">Ramshetty</span>
+    </h1>
+
+    <p class="typer seq d3" id="typer" aria-live="polite"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+
+    <div class="routeline seq d3" aria-hidden="true">
+      <span class="dot"></span>
+      <span class="track"></span>
+      <span class="plane">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l3.2 3.9-2 2-2.2-.6a.5.5 0 0 0-.5.8L5 15.5l1.4 2.2a.5.5 0 0 0 .8-.5l-.6-2.2 2-2 3.9 3.2a.5.5 0 0 0 .8-.5Z"/>
+        </svg>
+      </span>
+    </div>
   </div>
 </div>
 
@@ -917,25 +927,6 @@ a:focus-visible, button:focus-visible {
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <p class="hero-eyebrow seq d1">Full Stack Developer &nbsp;·&nbsp; AI Enthusiast</p>
-
-    <h1 class="seq d2">
-      Madhusudhan
-      <span class="sur">Ramshetty</span>
-    </h1>
-
-    <p class="typer seq d3" id="typer" aria-live="polite"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
-
-    <div class="routeline seq d3" aria-hidden="true">
-      <span class="dot"></span>
-      <span class="track"></span>
-      <span class="plane">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l3.2 3.9-2 2-2.2-.6a.5.5 0 0 0-.5.8L5 15.5l1.4 2.2a.5.5 0 0 0 .8-.5l-.6-2.2 2-2 3.9 3.2a.5.5 0 0 0 .8-.5Z"/>
-        </svg>
-      </span>
-    </div>
-
     <p class="hero-lede seq d4">
       Computer Science Engineering student building performant web applications
       and exploring modern AI integrations. I take ideas from concept to working,
@@ -1305,13 +1296,14 @@ a:focus-visible, button:focus-visible {
     })();
   }
 
-  /* ---------- hero: live route network ----------
-     Waypoints drift, nearby ones link up, and traffic runs along the
-     links. Node count scales with area so a phone is not asked to draw
-     a laptop's worth of geometry, and the loop stops entirely once the
-     hero scrolls away — an offscreen canvas repainting at 60fps is the
-     classic way these headers quietly drain a battery. */
-  (function routeNetwork() {
+  /* ---------- hero: circuit pulse ----------
+     PCB-style traces, each carrying a light pulse along its length.
+     Trace count scales with the banner's height so a phone is not
+     asked to animate a laptop's worth of geometry, and the loop stops
+     entirely once the hero scrolls away — an offscreen canvas
+     repainting at 60fps is the classic way these headers quietly
+     drain a battery. */
+  (function circuitPulse() {
     var canvas = document.getElementById("net");
     if (!canvas || reduced) return;
 
@@ -1319,8 +1311,7 @@ a:focus-visible, button:focus-visible {
     if (!ctx) return;
 
     var W = 0, H = 0, dpr = 1;
-    var nodes = [], flights = [];
-    var LINK = 132;          /* px within which two waypoints connect */
+    var traces = [];
     var running = true, rafId = null;
 
     function size() {
@@ -1334,108 +1325,83 @@ a:focus-visible, button:focus-visible {
     }
 
     function build() {
-      var target = Math.round(Math.min(78, Math.max(26, (W * H) / 13000)));
-      nodes = [];
-      for (var i = 0; i < target; i++) {
-        nodes.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.22,
-          vy: (Math.random() - 0.5) * 0.22,
-          r: Math.random() * 1.5 + 0.9,
-          /* a few waypoints are "major" and get a halo */
-          major: Math.random() < 0.13
+      var rows = Math.round(Math.min(9, Math.max(5, H / 68)));
+      traces = [];
+      for (var i = 0; i < rows; i++) {
+        var y = (H / (rows + 1)) * (i + 1) + (Math.random() - 0.5) * 14;
+        var bendX = W * 0.2 + Math.random() * W * 0.6;
+        var jog = (Math.random() < 0.5 ? -1 : 1) * (16 + Math.random() * 26);
+        /* each trace bleeds off both edges and jogs once, like a PCB
+           trace routed around a component */
+        traces.push({
+          pts: [[-20, y], [bendX, y], [bendX, y + jog], [W + 20, y + jog]],
+          t: Math.random(),
+          speed: 0.0016 + Math.random() * 0.0016
         });
       }
-      flights = [];
-      for (var f = 0; f < Math.max(3, Math.round(target / 11)); f++) newFlight();
     }
 
-    function newFlight() {
-      if (nodes.length < 2) return;
-      var a = (Math.random() * nodes.length) | 0;
-      var b = (Math.random() * nodes.length) | 0;
-      if (a === b) b = (b + 1) % nodes.length;
-      flights.push({ a: a, b: b, t: 0, speed: 0.0022 + Math.random() * 0.0034 });
+    function pointAt(pts, pos) {
+      var total = pts.length - 1;
+      var seg = Math.min(total - 1, Math.floor(pos));
+      var lt = pos - seg;
+      var A = pts[seg], B = pts[seg + 1];
+      return [A[0] + (B[0] - A[0]) * lt, A[1] + (B[1] - A[1]) * lt];
     }
 
     function draw() {
       if (!running) return;
       ctx.clearRect(0, 0, W, H);
 
-      var i, j, n, m, dx, dy, d;
-
-      /* links */
-      for (i = 0; i < nodes.length; i++) {
-        n = nodes[i];
-        n.x += n.vx; n.y += n.vy;
-        if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
-        if (n.y < -20) n.y = H + 20; else if (n.y > H + 20) n.y = -20;
-
-        for (j = i + 1; j < nodes.length; j++) {
-          m = nodes[j];
-          dx = n.x - m.x; dy = n.y - m.y;
-          d = Math.sqrt(dx * dx + dy * dy);
-          if (d > LINK) continue;
-          ctx.globalAlpha = (1 - d / LINK) * 0.34;
-          ctx.strokeStyle = "#7fd8f5";
-          ctx.lineWidth = 0.7;
-          ctx.beginPath();
-          ctx.moveTo(n.x, n.y);
-          ctx.lineTo(m.x, m.y);
-          ctx.stroke();
-        }
-      }
-
-      /* waypoints */
-      for (i = 0; i < nodes.length; i++) {
-        n = nodes[i];
-        if (n.major) {
-          ctx.globalAlpha = 0.16;
-          ctx.fillStyle = "#00c2ff";
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r * 5.5, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = n.major ? 0.95 : 0.62;
-        ctx.fillStyle = n.major ? "#9fe8ff" : "#cfe9f4";
+      traces.forEach(function (tr) {
+        /* the trace itself */
+        ctx.globalAlpha = 0.22;
+        ctx.strokeStyle = "#3fc9e4";
+        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      /* traffic running between waypoints */
-      for (i = flights.length - 1; i >= 0; i--) {
-        var fl = flights[i];
-        var A = nodes[fl.a], B = nodes[fl.b];
-        if (!A || !B) { flights.splice(i, 1); newFlight(); continue; }
-
-        fl.t += fl.speed;
-        if (fl.t >= 1) { flights.splice(i, 1); newFlight(); continue; }
-
-        var px = A.x + (B.x - A.x) * fl.t;
-        var py = A.y + (B.y - A.y) * fl.t;
-
-        /* the trail behind it */
-        var tt = Math.max(0, fl.t - 0.09);
-        ctx.globalAlpha = 0.5;
-        var grad = ctx.createLinearGradient(
-          A.x + (B.x - A.x) * tt, A.y + (B.y - A.y) * tt, px, py);
-        grad.addColorStop(0, "rgba(0,194,255,0)");
-        grad.addColorStop(1, "rgba(0,194,255,0.85)");
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(A.x + (B.x - A.x) * tt, A.y + (B.y - A.y) * tt);
-        ctx.lineTo(px, py);
+        tr.pts.forEach(function (p, i) { i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]); });
         ctx.stroke();
 
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = "#ffffff";
+        /* vias at the bends */
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle = "#1c313a";
+        for (var i = 1; i < tr.pts.length - 1; i++) {
+          ctx.beginPath();
+          ctx.arc(tr.pts[i][0], tr.pts[i][1], 2.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        /* the pulse travelling the trace, with a fading trail */
+        tr.t += tr.speed;
+        if (tr.t > 1) tr.t = 0;
+
+        var total = tr.pts.length - 1;
+        var pos = tr.t * total;
+        var p = pointAt(tr.pts, pos);
+        var tail = pointAt(tr.pts, Math.max(0, pos - 0.4));
+
+        ctx.globalAlpha = 0.55;
+        var grad = ctx.createLinearGradient(tail[0], tail[1], p[0], p[1]);
+        grad.addColorStop(0, "rgba(0,194,255,0)");
+        grad.addColorStop(1, "rgba(0,194,255,0.9)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.6;
         ctx.beginPath();
-        ctx.arc(px, py, 1.9, 0, Math.PI * 2);
+        ctx.moveTo(tail[0], tail[1]);
+        ctx.lineTo(p[0], p[1]);
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.45;
+        ctx.fillStyle = "#ff6b9d";
+        ctx.beginPath();
+        ctx.arc(p[0], p[1], 5, 0, Math.PI * 2);
         ctx.fill();
-      }
+
+        ctx.globalAlpha = 1;
+        ctx.beginPath();
+        ctx.arc(p[0], p[1], 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
 
       ctx.globalAlpha = 1;
       rafId = requestAnimationFrame(draw);
@@ -1601,7 +1567,7 @@ a:focus-visible, button:focus-visible {
 
   /* ---------- scroll progress, banner parallax, back to top ---------- */
   var bar = document.getElementById("progress");
-  var nameBlock = document.querySelector(".banner-name");
+  var nameBlock = document.querySelector(".banner-intro");
   var toTop = document.getElementById("totop");
   var ticking = false;
 
