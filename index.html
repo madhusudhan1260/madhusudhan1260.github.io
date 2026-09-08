@@ -963,10 +963,10 @@ a:focus-visible, button:focus-visible {
       <h2>By the numbers</h2><span class="rule"></span><span class="count">Live from GitHub</span>
     </div>
     <div class="metrics reveal">
-      <div class="metric"><span class="num" data-count="8">0</span><span class="lab">Public repos</span></div>
-      <div class="metric"><span class="num" data-count="6">0</span><span class="lab">Shipped projects</span></div>
+      <div class="metric"><span class="num" data-count="16">0</span><span class="lab">Public repos</span></div>
+      <div class="metric"><span class="num" data-count="11">0</span><span class="lab">Shipped projects</span></div>
       <div class="metric"><span class="num" data-count="4">0</span><span class="lab">Certifications</span></div>
-      <div class="metric"><span class="num" data-count="11">0</span><span class="lab">Technologies</span></div>
+      <div class="metric"><span class="num" data-count="13">0</span><span class="lab">Technologies</span></div>
     </div>
   </section>
 
@@ -1023,15 +1023,16 @@ a:focus-visible, button:focus-visible {
       <span class="tag">In active use</span>
       <div class="chips">
         <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">React</span>
-        <span class="chip">Flask</span><span class="chip">HTML5</span><span class="chip">CSS3</span>
+        <span class="chip">Flask</span><span class="chip">FastAPI</span><span class="chip">SQLAlchemy</span>
+        <span class="chip">HTML5</span><span class="chip">CSS3</span>
         <span class="chip">C</span><span class="chip">C++</span><span class="chip">Git</span>
         <span class="chip">GitHub</span><span class="chip">VS Code</span>
       </div>
 
       <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
-          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
-          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
+          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>FastAPI<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Auth &amp; JWT<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
+          <span><i>◆</i>Parsing<i>◆</i>PDF generation<i>◆</i>REST APIs<i>◆</i>React state<i>◆</i>Flask<i>◆</i>FastAPI<i>◆</i>Data transforms<i>◆</i>Cryptography<i>◆</i>Auth &amp; JWT<i>◆</i>Responsive UI<i>◆</i>Git workflows<i>◆</i>Problem solving</span>
         </div>
       </div>
     </div>
@@ -1070,11 +1071,14 @@ a:focus-visible, button:focus-visible {
   <!-- ============ WORK ============ -->
   <section class="section" id="work">
     <div class="sec-head reveal">
-      <h2>Selected Work</h2><span class="rule"></span><span class="count">04 &nbsp;·&nbsp; 6 repositories</span>
+      <h2>Selected Work</h2><span class="rule"></span><span class="count">04 &nbsp;·&nbsp; 11 repositories</span>
     </div>
     <div class="filters reveal" role="group" aria-label="Filter projects by area">
       <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
       <button class="filter" type="button" data-filter="aviation" aria-pressed="false">Aviation</button>
+      <button class="filter" type="button" data-filter="ai" aria-pressed="false">AI</button>
+      <button class="filter" type="button" data-filter="campus" aria-pressed="false">Campus</button>
+      <button class="filter" type="button" data-filter="productivity" aria-pressed="false">Productivity</button>
       <button class="filter" type="button" data-filter="security" aria-pressed="false">Security</button>
       <button class="filter" type="button" data-filter="frontend" aria-pressed="false">Frontend</button>
       <button class="filter" type="button" data-filter="hackathon" aria-pressed="false">Hackathon</button>
@@ -1125,6 +1129,45 @@ a:focus-visible, button:focus-visible {
         <span class="no">Frontend</span>
         <h3><a href="https://github.com/madhusudhan1260/Maddy-s-restaurant">Restaurant Menu Website</a></h3>
         <p>A responsive frontend with dynamic menu categorisation and interaction handling — an exercise in layout, state and a clean interface.</p>
+        <div class="foot"><span class="lang">HTML</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="HackRadar" data-area="hackathon" class="card reveal">
+        <span class="no">Hackathon</span>
+        <h3><a href="https://github.com/madhusudhan1260/HackRadar">HackRadar</a></h3>
+        <p>Pulls hackathon listings from Devpost, MLH and more into a single dashboard — normalises and de-duplicates the same event across platforms, scores each one against your skills, and warns before deadlines pass.</p>
+        <div class="foot">
+          <a class="live" href="https://hack-radar-virid.vercel.app" target="_blank" rel="noopener"><i></i>Live app</a>
+          <span class="lang">FastAPI</span><span class="lang">React</span>
+          <span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span>
+        </div>
+      </article>
+
+      <article data-repo="new--campusly" data-area="campus" class="card reveal">
+        <span class="no">Campus</span>
+        <h3><a href="https://github.com/madhusudhan1260/new--campusly">Campusly</a></h3>
+        <p>A Flask platform for campus life: hackathon and internship listings, a lost-and-found board, health check-ins and an admin analytics dashboard, behind session auth with CSRF-protected forms.</p>
+        <div class="foot"><span class="lang">Python</span><span class="lang">Flask</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="AI-INTERVIEW-TAKER" data-area="ai" class="card reveal">
+        <span class="no">AI</span>
+        <h3><a href="https://github.com/madhusudhan1260/AI-INTERVIEW-TAKER">AI Interview Taker</a></h3>
+        <p>A mock-interview platform: AI-generated questions, speech and text answer evaluation, resume ATS parsing, weakness detection and a dynamic study plan, behind a JWT-authenticated Flask API.</p>
+        <div class="foot"><span class="lang">Python</span><span class="lang">JavaScript</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="moneyjar" data-area="productivity" class="card reveal">
+        <span class="no">Productivity</span>
+        <h3><a href="https://github.com/madhusudhan1260/moneyjar">MoneyJar</a></h3>
+        <p>A personal finance dashboard — income, savings and expenses in one view, with rule-based spending insights and CSV/Excel import from bank or UPI statements. Installable as a home-screen PWA.</p>
+        <div class="foot"><span class="lang">Python</span><span class="lang">Flask</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
+      </article>
+
+      <article data-repo="daybreak" data-area="productivity" class="card reveal">
+        <span class="no">Productivity</span>
+        <h3><a href="https://github.com/madhusudhan1260/daybreak">Daybreak</a></h3>
+        <p>An iPhone-style planner in a single HTML file: weekly schedule, date-specific reminders, a work log and alarms — no build step, no backend.</p>
         <div class="foot"><span class="lang">HTML</span><span class="meta pending" data-updated>—</span><span class="go">Repo ↗</span></div>
       </article>
 
@@ -1634,4 +1677,4 @@ a:focus-visible, button:focus-visible {
 </script>
 
 </body>
-</html>v
+</html>
