@@ -10,11 +10,11 @@ export const LINKS = [
 
 /* Real screenshots of my own projects, scrolled through the marquee */
 export const MARQUEE = [
-  "nv-live", "lf-01-home", "rq-04-user-map", "hr-og", "lf-06-smart-match", "ka-live",
-  "rq-02-user-home", "lf-09-doss-dashboard", "lf-02-found-items", "rq-05-user-map-layers-evacuation", "lf-11-claim-review",
-  "lf-03-item-details", "rq-07-user-help", "lf-04-report-lost-item", "rq-08-user-alerts", "lf-05-claim-form",
-  "rq-03-user-home-why", "lf-07-my-claims", "rq-06-user-report", "lf-10-doss-claims", "lf-12-claim-review-verification",
-].map((n) => `/work/${n}.jpg`);
+  "nv-live", "nb-ai", "lf-01-home", "rq-04-user-map", "hr-og", "nb-tickets", "lf-06-smart-match", "ka-live",
+  "rq-02-user-home", "lf-09-doss-dashboard", "nb-planner", "lf-02-found-items",
+  "rq-05-user-map-layers-evacuation", "lf-11-claim-review", "nb-home", "lf-03-item-details", "rq-07-user-help",
+  "lf-04-report-lost-item", "rq-08-user-alerts", "lf-05-claim-form", "rq-03-user-home-why", "lf-12-claim-review-verification",
+].map((n) => `/shots/${n}.webp`);
 
 export const EXPERIENCE = [
   {
@@ -64,7 +64,9 @@ export const SERVICES = [
 ];
 
 export type Project = {
+  slug: string;
   name: string;
+  impact: string[];
   category: string;
   blurb: string;
   stack: string[];
@@ -76,44 +78,62 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    slug: "navlog-converter",
+    impact: ["13 fleet templates", "Live in production", "Internship project"],
     name: "NavLog Converter",
     category: "Aviation · Pravahya",
-    blurb: "ForeFlight navlog exports in, operator-formatted OPS flight-plan PDFs out, across 13 aircraft and fleet templates. Live and used for real flight planning.",
+    blurb: "ForeFlight navlog exports in, operator-formatted OPS flight-plan PDFs out, across 13 aircraft and fleet templates. Deployed and live.",
     stack: ["React", "Flask", "Python"],
     live: "https://navlog-convertor-website-2-0-me9x.vercel.app",
     code: "https://github.com/madhusudhan1260/Navlog-convertor-website-2.0",
-    images: ["/work/nv-live.jpg"],
+    images: ["/shots/nv-live.webp"],
   },
   {
+    slug: "namma-bus",
+    impact: ["302 backend tests passing", "HMAC-signed QR tickets", "Telemetry-grounded AI"],
+    name: "Namma Bus",
+    category: "Mobility · Real-time",
+    blurb: "A real-time BMTC transit platform for Bengaluru: live buses, a journey planner, seat forecasts, QR passes with a conductor validator, and an assistant that answers only from live data.",
+    stack: ["Expo", "TypeScript", "FastAPI"],
+    code: "https://github.com/madhusudhan1260/Namma_Bus",
+    images: ["/shots/nb-home.webp", "/shots/nb-ai.webp", "/shots/nb-tickets.webp"],
+    tall: true,
+  },
+  {
+    slug: "smart-lost-and-found",
+    impact: ["0–100 explainable matching", "4-check claim verification", "JWT staff portal"],
     name: "Smart Lost & Found",
     category: "Campus · MERN",
     blurb: "The full lost-and-found lifecycle for a college campus: reports, Smart Match scoring, claim verification and a JWT-secured staff dashboard.",
     stack: ["React 19", "Express 5", "MongoDB"],
     code: "https://github.com/madhusudhan1260/smart-lost-and-found",
-    images: ["/work/lf-06-smart-match.jpg", "/work/lf-09-doss-dashboard.jpg", "/work/lf-01-home.jpg"],
+    images: ["/shots/lf-06-smart-match.webp", "/shots/lf-09-doss-dashboard.webp", "/shots/lf-01-home.webp"],
   },
   {
+    slug: "riskn-resq",
+    impact: ["Sentinel-1 satellite radar", "15-min rainfall refresh", "EN · HI · KN"],
     name: "RiskN ResQ",
     category: "Climate · Mobile",
     blurb: "Street-level flood early warning that fuses rainfall, Sentinel-1 satellite radar and terrain, with lower-risk routing and community help requests.",
     stack: ["FastAPI", "PostgreSQL", "React Native"],
     code: "https://github.com/madhusudhan1260/RiskN-ResQ",
-    images: ["/work/rq-02-user-home.jpg", "/work/rq-08-user-alerts.jpg", "/work/rq-04-user-map.jpg"],
+    images: ["/shots/rq-02-user-home.webp", "/shots/rq-08-user-alerts.webp", "/shots/rq-04-user-map.webp"],
     tall: true,
   },
   {
+    slug: "hackradar",
+    impact: ["Cross-platform de-duplication", "Re-ingests every 6 h", "Live on Vercel"],
     name: "HackRadar",
     category: "Developer Tool · Live",
     blurb: "Every hackathon in one dashboard: pluggable collectors for Devpost and MLH, cross-platform de-duplication, skill-match scoring and deadline alerts.",
     stack: ["FastAPI", "React", "Python"],
     live: "https://hack-radar-virid.vercel.app",
     code: "https://github.com/madhusudhan1260/HackRadar",
-    images: ["/work/hr-og.jpg"],
+    images: ["/shots/hr-og.webp"],
   },
 ];
 
 export const MORE_PROJECTS = [
-  { name: "Namma Bus", desc: "Real-time Bengaluru BMTC transit app: live buses, journey planner, QR passes and seat forecasts.", stack: "Expo · TypeScript · FastAPI", href: "https://github.com/madhusudhan1260/Namma_Bus" },
   { name: "FDTL Management System", desc: "Crew-duty planning with Flight Duty Time Limit compliance checks and violation tracking.", stack: "React · Recharts", href: "https://github.com/madhusudhan1260/FDTL-NEW" },
   { name: "Campus Safety Reporter", desc: "Framework-free Java 21 server that routes campus safety reports, emergencies first.", stack: "Java · JDBC · MySQL", href: "https://github.com/madhusudhan1260/campus-safety" },
   { name: "Campusly", desc: "Campus portal for hackathons, internships, health check-ins and a lost-and-found board.", stack: "Flask · Gemini", href: "https://github.com/madhusudhan1260/new--campusly" },

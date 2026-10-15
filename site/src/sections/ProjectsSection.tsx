@@ -1,8 +1,7 @@
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import FadeIn from "../components/FadeIn";
-import { LiveProjectButton } from "../components/Buttons";
 import { MORE_PROJECTS, PROJECTS, type Project } from "../data";
 
 const RADIUS = "rounded-[28px] sm:rounded-[40px] md:rounded-[50px]";
@@ -55,6 +54,11 @@ function Card({ p, i, total, progress }: { p: Project; i: number; total: number;
               {p.name}
             </h3>
             <p className="mt-1 hidden max-w-2xl text-sm font-light leading-relaxed text-[#D7E2EA]/70 md:block md:text-base">{p.blurb}</p>
+            <ul className="mt-3 hidden flex-wrap gap-2 lg:flex" aria-label="Impact">
+              {p.impact.map((m) => (
+                <li key={m} className="rounded-full bg-[#B600A8]/15 px-3 py-1 text-xs font-medium uppercase tracking-wider text-[#F0B8EC]">{m}</li>
+              ))}
+            </ul>
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -66,7 +70,23 @@ function Card({ p, i, total, progress }: { p: Project; i: number; total: number;
             >
               <Github className="h-5 w-5" />
             </a>
-            <LiveProjectButton href={p.live ?? p.code}>{p.live ? "Live Project" : "View Code"}</LiveProjectButton>
+            {p.live && (
+              <a
+                href={p.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${p.name} live app`}
+                className="grid h-12 w-12 place-items-center rounded-full border-2 border-[#D7E2EA]/40 text-[#D7E2EA] transition-colors hover:border-[#D7E2EA] hover:bg-[#D7E2EA]/10 sm:h-14 sm:w-14"
+              >
+                <ExternalLink className="h-5 w-5" />
+              </a>
+            )}
+            <a
+              href={`/projects/${p.slug}/`}
+              className="inline-block whitespace-nowrap rounded-full border-2 border-[#D7E2EA] px-6 py-3 text-sm font-medium uppercase tracking-widest text-[#D7E2EA] transition-colors duration-200 hover:bg-[#D7E2EA]/10 sm:px-8 sm:py-3.5 sm:text-base"
+            >
+              Case Study
+            </a>
           </div>
         </div>
         <Images p={p} />
@@ -109,10 +129,10 @@ export default function ProjectsSection() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <h4 className="text-lg font-medium uppercase leading-tight text-[#D7E2EA]">{m.name}</h4>
-                  <ArrowUpRight className="h-5 w-5 flex-none text-[#D7E2EA]/50 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#D7E2EA]" />
+                  <ArrowUpRight className="h-5 w-5 flex-none text-[#D7E2EA]/65 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#D7E2EA]" />
                 </div>
                 <p className="flex-1 text-sm font-light leading-relaxed text-[#D7E2EA]/65">{m.desc}</p>
-                <p className="text-xs uppercase tracking-widest text-[#D7E2EA]/45">{m.stack}</p>
+                <p className="text-xs uppercase tracking-widest text-[#D7E2EA]/65">{m.stack}</p>
               </a>
             </FadeIn>
           ))}

@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && rm -rf ../assets ../work && vite build && touch ../.nojekyll",
-    "preview": "vite preview"
+    "dev": "node scripts/pages.mjs && vite",
+    "build": "node scripts/pages.mjs && tsc -b && rm -rf ../assets ../work ../shots ../projects ../notes && vite build && touch ../.nojekyll",
+    "preview": "vite preview",
+    "pages": "node scripts/pages.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.43.0",

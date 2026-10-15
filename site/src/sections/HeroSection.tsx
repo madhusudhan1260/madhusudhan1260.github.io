@@ -11,8 +11,7 @@ const NAV = [
   { label: "Contact", href: "#contact" },
 ];
 
-const AVATAR =
-  "https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png";
+const AVATAR = "/avatar.webp";
 
 export default function HeroSection() {
   const [avatarFailed, setAvatarFailed] = useState(false);
@@ -52,7 +51,10 @@ export default function HeroSection() {
                 <img
                   src={AVATAR}
                   alt="3D avatar"
-                  className="w-full select-none"
+                  width={1040}
+                  height={1126}
+                  fetchPriority="high"
+                  className="h-auto w-full select-none"
                   draggable={false}
                   onError={() => setAvatarFailed(true)}
                 />

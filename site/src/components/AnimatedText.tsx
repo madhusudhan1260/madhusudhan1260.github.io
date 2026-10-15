@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
 
 function Char({ char, progress, range }: { char: string; progress: MotionValue<number>; range: [number, number] }) {
@@ -16,13 +16,16 @@ function Char({ char, progress, range }: { char: string; progress: MotionValue<n
 
 export default function AnimatedText({ text, className, style }: { text: string; className?: string; style?: React.CSSProperties }) {
   const ref = useRef<HTMLParagraphElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
+  if (reduce) return <p ref={ref} className={className} style={style}>{text}</p>;
   const words = text.split(" ");
   const total = text.length;
   let index = 0;
 
   return (
-    <p ref={ref} className={className} style={style} aria-label={text}>
+    <p ref={ref} className={className} style={style}>
+      <span className="sr-only">{text}</span>
       {words.map((word, wi) => {
         const chars = (wi < words.length - 1 ? word + " " : word).split("");
         return (

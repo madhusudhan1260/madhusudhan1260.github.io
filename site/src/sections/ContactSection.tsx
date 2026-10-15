@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowUpRight, Check, Copy, Download } from "lucide-react";
 import FadeIn from "../components/FadeIn";
-import { ContactButton } from "../components/Buttons";
+import ContactForm from "../components/ContactForm";
 import { EMAIL, LINKS, RESUME } from "../data";
 
 export default function ContactSection() {
@@ -40,8 +40,11 @@ export default function ContactSection() {
           </button>
         </FadeIn>
 
+        <FadeIn delay={0.25} className="mt-12 w-full max-w-3xl rounded-[32px] border border-[#D7E2EA]/15 p-5 sm:p-8">
+          <ContactForm />
+        </FadeIn>
+
         <FadeIn delay={0.3} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <ContactButton href={`mailto:${EMAIL}`}>Email Me</ContactButton>
           <a
             href={RESUME}
             download
@@ -67,7 +70,7 @@ export default function ContactSection() {
         </FadeIn>
       </div>
 
-      <footer className="mx-auto mt-24 flex max-w-6xl flex-col items-center justify-between gap-3 border-t border-[#D7E2EA]/15 pt-8 text-xs font-light uppercase tracking-widest text-[#D7E2EA]/50 sm:flex-row sm:text-sm">
+      <footer className="mx-auto mt-24 flex max-w-6xl flex-col items-center justify-between gap-3 border-t border-[#D7E2EA]/15 pt-8 text-xs font-light uppercase tracking-widest text-[#D7E2EA]/65 sm:flex-row sm:text-sm">
         <span>© {new Date().getFullYear()} Madhusudhan Ramshetty</span>
         <span>Bengaluru, India</span>
         <a href="#top" className="hover:text-[#D7E2EA]">Back to top ↑</a>

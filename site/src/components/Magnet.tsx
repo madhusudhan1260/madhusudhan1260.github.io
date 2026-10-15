@@ -22,7 +22,7 @@ export default function Magnet({
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: MouseEvent) => {
       const el = ref.current;
       if (!el) return;

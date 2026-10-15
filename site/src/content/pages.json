@@ -1,0 +1,15 @@
+{
+  "site": "https://madhusudhan1260.github.io",
+  "projects": [
+    { "slug": "navlog-converter", "title": "NavLog Converter — Case Study", "description": "How I built a React + Flask app at Pravahya that turns ForeFlight navlog exports into operator-formatted flight-plan PDFs across 13 fleet templates." },
+    { "slug": "namma-bus", "title": "Namma Bus — Case Study", "description": "A real-time Bengaluru BMTC transit platform: live buses, journey planner, HMAC-signed QR tickets and an AI assistant grounded in vehicle telemetry." },
+    { "slug": "smart-lost-and-found", "title": "Smart Lost & Found — Case Study", "description": "A MERN app for the full campus lost-and-found lifecycle, with explainable Smart Match scoring and evidence-based claim verification." },
+    { "slug": "riskn-resq", "title": "RiskN ResQ — Case Study", "description": "Street-level flood early warning from rainfall, Sentinel-1 satellite radar and terrain, with flood-aware routing and volunteer matching." },
+    { "slug": "hackradar", "title": "HackRadar — Case Study", "description": "One dashboard for every hackathon: a collect, normalise, de-duplicate and classify pipeline with skill matching and deadline alerts." }
+  ],
+  "notes": [
+    { "slug": "navlog-to-flight-plan", "title": "One data model, thirteen flight plans", "description": "Why I split the NavLog Converter into a parser and a renderer, and what that bought me when operators kept asking for new layouts." },
+    { "slug": "verifying-ownership-claims", "title": "Deciding who really owns a lost phone", "description": "The weighted evidence check behind Smart Lost & Found, and why it advises staff instead of deciding for them." },
+    { "slug": "grounded-transit-assistant", "title": "An AI bus assistant that refuses to guess", "description": "How Namma Bus keeps its assistant tied to live telemetry and says plainly when data is simulated or stale." }
+  ]
+}
