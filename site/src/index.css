@@ -26,6 +26,21 @@ body {
 @keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 .float-slow { animation: float-y 6s ease-in-out infinite; }
 
+/* hero laptop: code lines type in one after another, then clear */
+.hv-line {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: hv-type 7.5s cubic-bezier(0.65, 0, 0.35, 1) infinite both;
+}
+@keyframes hv-type {
+  0%       { transform: scaleX(0); opacity: 1; }
+  7%       { transform: scaleX(1); opacity: 1; }
+  88%      { transform: scaleX(1); opacity: 1; }
+  96%, 100% { transform: scaleX(1); opacity: 0; }
+}
+.hv-caret { animation: hv-blink 1s steps(1) infinite; }
+@keyframes hv-blink { 50% { opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

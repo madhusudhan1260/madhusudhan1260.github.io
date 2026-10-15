@@ -1,6 +1,8 @@
+import { useState } from "react";
 import FadeIn from "../components/FadeIn";
 import Magnet from "../components/Magnet";
 import { ContactButton } from "../components/Buttons";
+import HeroVisual from "../components/HeroVisual";
 
 const NAV = [
   { label: "About", href: "#about" },
@@ -9,7 +11,11 @@ const NAV = [
   { label: "Contact", href: "#contact" },
 ];
 
+const AVATAR =
+  "https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png";
+
 export default function HeroSection() {
+  const [avatarFailed, setAvatarFailed] = useState(false);
   return (
     <section className="relative flex h-screen min-h-[560px] flex-col" style={{ overflowX: "clip" }}>
       <FadeIn as="nav" delay={0} y={-20} className="relative z-20 flex justify-between gap-3 px-6 pt-6 md:px-10 md:pt-8">
@@ -35,26 +41,25 @@ export default function HeroSection() {
         </FadeIn>
       </div>
 
-      {/* portrait: soft glow behind a background-removed photo */}
+      {/* 3D avatar; falls back to the animated laptop if the image can't load */}
       <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 sm:bottom-0 sm:top-auto sm:translate-y-0">
-      <FadeIn delay={0.6} y={30}>
-        <Magnet padding={150} strength={3} activeTransition="transform 0.3s ease-out" inactiveTransition="transform 0.6s ease-in-out">
-          <div className="relative w-[240px] sm:w-[300px] md:w-[360px] lg:w-[400px]">
-            <div
-              aria-hidden="true"
-              className="absolute inset-x-[8%] bottom-0 top-[18%] rounded-full blur-3xl"
-              style={{ background: "radial-gradient(circle, rgba(182,0,168,0.45), rgba(118,33,176,0.25) 45%, transparent 70%)" }}
-            />
-            <img
-              src="/me.png"
-              alt="Portrait of Madhusudhan Ramshetty"
-              className="relative w-full select-none"
-              style={{ WebkitMaskImage: "linear-gradient(180deg, #000 78%, transparent 100%)", maskImage: "linear-gradient(180deg, #000 78%, transparent 100%)" }}
-              draggable={false}
-            />
-          </div>
-        </Magnet>
-      </FadeIn>
+        <FadeIn delay={0.6} y={30}>
+          <Magnet padding={150} strength={3} activeTransition="transform 0.3s ease-out" inactiveTransition="transform 0.6s ease-in-out">
+            <div className="w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]">
+              {avatarFailed ? (
+                <HeroVisual />
+              ) : (
+                <img
+                  src={AVATAR}
+                  alt="3D avatar"
+                  className="w-full select-none"
+                  draggable={false}
+                  onError={() => setAvatarFailed(true)}
+                />
+              )}
+            </div>
+          </Magnet>
+        </FadeIn>
       </div>
 
       <div className="relative z-20 mt-auto flex items-end justify-between gap-4 px-6 pb-7 sm:pb-8 md:px-10 md:pb-10">
